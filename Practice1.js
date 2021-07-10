@@ -15,6 +15,7 @@ function findIndexCnt(targetArr1,targetArr2,findIt){
     return sumOfArrIndex
 }
 
+console.log("Test message");
 
 var inputArr1 = [1,2,3,1]
 var inputArr2 = [2,4,1,6,1]

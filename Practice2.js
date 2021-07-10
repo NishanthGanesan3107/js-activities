@@ -16,4 +16,5 @@ function toMyCase(input) {
         console.log(res);
     }
 }
+console.log("Test message 2");
 toMyCase("abcdefghi")

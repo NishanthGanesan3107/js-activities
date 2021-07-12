@@ -1,0 +1,6 @@
+{
+	"name": "Match the Card Game",
+	"isRandom":true,
+    "imageBasePath":"./Images/",
+	"images": ["kingOfSpades.png", "kingOfHearts.png", "kingOfDiamonds.png", "kingOfSpades.png"]
+}

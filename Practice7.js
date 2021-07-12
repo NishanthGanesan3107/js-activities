@@ -1,3 +1,9 @@
+let selected = 0;
+let imageNames = [];
+let firstImgId = 0;
+let secImgId = 0;
+let isRandom=false;
+let basePath="";
 function randomize(targetArr) {
     let rand = 0
     console.log(targetArr);
@@ -12,15 +18,11 @@ function randomize(targetArr) {
 
     console.log(targetArr);
 }
-let idArr = ["img1", "img2", "img3", "img4"];
-let selected = 0;
 
-let firstImgId = 0;
-let secImgId = 0;
 function getSelectedCnt() {
     let cnt = 0;
-    for (let index = 0; index < idArr.length; index++) {
-        const element = $("#" + idArr[index]);
+    for (let index = 0; index < imageNames.length; index++) {
+        const element = $("#img"+(index+1));
         if (element.css("opacity") === "0.5") {
             cnt++
         }
@@ -29,11 +31,7 @@ function getSelectedCnt() {
     return cnt;
 }
 
-$('document').ready(function () {
-    $('#replay').hide()
-    $('.resultArea').hide()
-
-
+let cardBtnEvent=()=>{
     $('img').on("click", function () {
         if ($(this).parent('div').css('opacity') === '1') {
             let cnt = getSelectedCnt();
@@ -72,7 +70,8 @@ $('document').ready(function () {
             $('#chk').attr('disabled', 'true')
         }
     })
-
+}
+let checkBtnEvent=()=>{
     $('#chk').click(function () {
         $('#replay').show();
         $('.resultArea').show();
@@ -81,13 +80,12 @@ $('document').ready(function () {
 
         $('img').off('click');
 
-        let imageNames = ['./Images/kingOfSpades.png', './Images/kingOfHearts.png', './Images/kingOfDiamonds.png', './Images/kingOfSpades.png'];
+        if(isRandom)    randomize(imageNames);
 
-        randomize(imageNames);
         let idCnt = 0;
         for (let index = 0; index < imageNames.length; index++) {
             idCnt++;
-            $('#img' + idCnt).find('img').attr("src", imageNames[index])
+            $('#img' + idCnt).find('img').attr("src", basePath+imageNames[index])
 
         }
 
@@ -98,8 +96,30 @@ $('document').ready(function () {
             $('div.resultArea').text("oops you lost!");
         }
     })
-
+}
+let resetGame=()=>{
     $('#replay').click(function () {
         location.reload()
     })
+}
+
+let loadJSON=()=>{
+    $.getJSON( "game.json", function( data ) {
+        console.log(data);
+        isRandom=data.isRandom;
+        imageNames=data.images;
+        basePath=data.imageBasePath;
+        initGame();
+    });
+}
+$('document').ready(function () {
+    loadJSON()
 })
+
+let initGame=()=>{
+    $('#replay').hide()
+    $('.resultArea').hide()
+    cardBtnEvent();
+    checkBtnEvent();
+    resetGame();
+}
